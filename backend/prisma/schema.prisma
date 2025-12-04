@@ -1,17 +1,21 @@
-datasource db {
-  provider = "postgresql"
-}
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
+datasource db {
+  provider = "postgresql"
+  // URL теперь берётся из prisma.config.ts или при инициализации PrismaClient
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(nanoid())
+  name      String
   email     String   @unique
   password  String
-  role      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt      @map("updated_at")
+
+  @@map("users")
 }
