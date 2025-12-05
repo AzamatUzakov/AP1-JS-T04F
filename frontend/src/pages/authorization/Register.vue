@@ -1,6 +1,29 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+
+
+const form = ref({
+    name: "",
+    email: "",
+    password: ""
+})
+
+const resText = ref<string>("")
+const isEror = ref<boolean>(false)
+
+const sendRegister = async () => {
+    try {
+        const res = await axios.post("http://localhost:3000/users/register", form.value)
+        resText.value = "Вы успешно зарегистрировались"
+        isEror.value = false
+    } catch (err: any) {
+        resText.value = `Ошибка ${err.message}`
+        isEror.value = true
+    }
+}
 
 </script>
 
@@ -12,37 +35,36 @@ import { RouterLink } from 'vue-router';
             <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">Создайте аккаунт</h2>
             <p class="text-center text-gray-500 mb-4">Заполните форму ниже, чтобы начать ваше путешествие с нами.</p>
 
-            <form class="space-y-6">
+            <form @submit.prevent="sendRegister" class="space-y-6">
                 <div>
                     <label class="block text-gray-700 mb-2" for="name">Имя</label>
-                    <input
+                    <input v-model="form.name"
                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                         type="text" id="name" placeholder="Ваше имя">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 mb-2" for="email">Электронная почта</label>
-                    <input
+                    <input v-model="form.email"
                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                         type="email" id="email" placeholder="example@mail.com">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 mb-2" for="password">Пароль</label>
-                    <input
+                    <input v-model="form.password"
                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                         type="password" id="password" placeholder="Придумайте пароль">
                 </div>
 
-                <div>
-                    <label class="block text-gray-700 mb-2" for="confirm-password">Повторите пароль</label>
-                    <input
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
-                        type="password" id="confirm-password" placeholder="Повторите пароль">
-                </div>
 
-                <button
+                <button type="submit"
                     class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition-colors cursor-pointer">Зарегистрироваться</button>
+                <p v-if="resText" :class="[
+                    'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
+                ]">{{ resText
+                    }} </p>
+
             </form>
 
             <p class="text-center text-gray-500 mt-6 cursor-pointer">
@@ -56,3 +78,5 @@ import { RouterLink } from 'vue-router';
 
     </div>
 </template>
+
+<style></style>
