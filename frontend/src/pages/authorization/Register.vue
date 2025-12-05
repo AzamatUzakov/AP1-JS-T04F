@@ -16,9 +16,10 @@ const isEror = ref<boolean>(false)
 
 const sendRegister = async () => {
     try {
-        const res = await axios.post("http://localhost:3000/users/register", form.value)
+        await axios.post("http://localhost:3000/users/register", form.value)
         resText.value = "Вы успешно зарегистрировались"
         isEror.value = false
+
     } catch (err: any) {
         resText.value = `Ошибка ${err.message}`
         isEror.value = true
@@ -63,7 +64,7 @@ const sendRegister = async () => {
                 <p v-if="resText" :class="[
                     'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
                 ]">{{ resText
-                    }} </p>
+                }} </p>
 
             </form>
 
