@@ -37,4 +37,23 @@ export class UserService {
         }
         return user
     }
+
+    async getUserByEmail(email: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            },
+        });
+
+        if (!user) {
+            throw new Error('Пользователь не найден');
+        }
+
+        return user;
+    }
+
+
 }

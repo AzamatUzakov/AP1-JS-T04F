@@ -1,10 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserService,
+        private readonly authService: AuthService
+    ) { }
 
     @Post('register')
     async register(
@@ -28,10 +31,15 @@ export class UserController {
         @Body('email') email: string,
         @Body('password') password: string,
     ) {
-        const user = await this.userService.checkUser(email, password)//Передаю email и password в user.servis
-        //Дестриктуризация
-        const { password: _, ...result } = user
-        return result
+        const user = await this.userService.checkUser(email, password);
+        const { password: _, ...userData } = user;
+
+        return this.authService.login(userData);
     }
 
+
+    @Get('profile')//для получение пользователя
+    async getUser(@Query('email') email: string) {
+        return this.userService.getUserByEmail(email);
+    }
 }
