@@ -22,4 +22,16 @@ export class UserController {
         const { password: _, ...result } = user;
         return result;
     }
+
+    @Post('login')
+    async login(
+        @Body('email') email: string,
+        @Body('password') password: string,
+    ) {
+        const user = await this.userService.checkUser(email, password)//Передаю email и password в user.servis
+        //Дестриктуризация
+        const { password: _, ...result } = user
+        return result
+    }
+
 }
