@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
 
 
@@ -13,12 +13,15 @@ const form = ref({
 
 const resText = ref<string>("")
 const isEror = ref<boolean>(false)
+const route = useRouter()
 
 const sendRegister = async () => {
     try {
         await axios.post("http://localhost:3000/users/register", form.value)
         resText.value = "Вы успешно зарегистрировались"
         isEror.value = false
+        route.push("/")
+
 
     } catch (err: any) {
         resText.value = `Ошибка ${err.message}`
