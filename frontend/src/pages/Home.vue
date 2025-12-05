@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { useUserStore } from '../stores/userStore';
+import axios from 'axios';
+import { onMounted } from 'vue';
+
 
 
 </script>

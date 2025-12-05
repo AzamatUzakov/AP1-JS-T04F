@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
+import { useUserStore } from '../../stores/userStore';
 
 
 
@@ -15,15 +16,21 @@ const forms = ref({
 const resText = ref<string>("")
 const isEror = ref<boolean>(false)
 const route = useRouter()
+const userStore = useUserStore()
+
 const sendLogin = async () => {
     try {
-        await axios.post("http://localhost:3000/users/login", forms.value)
+        const res = await axios.post("http://localhost:3000/users/login", forms.value)
+        const userData = res.data.user
+        const token = res.data.token
+
+        userStore.setUser(userData, token)
+
         resText.value = "Вы успешно вошли"
         isEror.value = false
         route.push("/")
-
     } catch (err: any) {
-        resText.value = `Ошибка: ${err.message}`
+        resText.value = `Ошибка: ${err.response?.data?.message || err.message}`
         isEror.value = true
     }
 }
@@ -64,7 +71,7 @@ const sendLogin = async () => {
                 <p v-if="resText" :class="[
                     'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
                 ]">{{ resText
-                }} </p>
+                    }} </p>
 
             </form>
 
