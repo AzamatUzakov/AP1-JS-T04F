@@ -22,6 +22,7 @@ const sendRegister = async () => {
         const res = await axios.post("http://localhost:3000/users/register", form.value)
         const userData = res.data.user || res.data   // если бэкенд возвращает token + user
         const token = res.data.token || null
+        console.log(res.data);
 
         if (token) userStore.setUser(userData, token)
         resText.value = "Вы успешно зарегистрировались"
@@ -72,7 +73,7 @@ const sendRegister = async () => {
                 <p v-if="resText" :class="[
                     'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
                 ]">{{ resText
-                    }} </p>
+                }} </p>
 
             </form>
 

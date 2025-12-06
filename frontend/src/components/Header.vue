@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
+import { computed, ref } from 'vue';
 const userStore = useUserStore();
-console.log(userStore.user);
 
+const isUser = computed(() => !!userStore.user);
+if (!userStore.user) {
+    console.log("Пользователя нету");
+
+} else {
+    console.log("Пользователь залогинен");
+
+}
 </script>
 
 <template>
@@ -51,11 +59,17 @@ console.log(userStore.user);
 
             <div>
                 <RouterLink to="/login">
-                    <p href="#"
+                    <p href="#" v-if="!isUser"
                         class="px-4 py-2 rounded-md border border-white text-white hover:bg-white hover:text-gray-900 transition">
                         Войти
                     </p>
                 </RouterLink>
+
+
+                <p href="#" v-if="isUser" @click="userStore.logout()"
+                    class="px-4 cursor-pointer py-2 rounded-md bg-red-500 border-white text-white hover:bg-white hover:text-gray-900 transition">
+                    Выйти
+                </p>
             </div>
         </div>
     </header>

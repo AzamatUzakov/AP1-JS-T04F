@@ -23,6 +23,7 @@ const sendLogin = async () => {
         const res = await axios.post("http://localhost:3000/users/login", forms.value)
         const userData = res.data.user
         const token = res.data.token
+        console.log(res.data);
 
         userStore.setUser(userData, token)
 
@@ -71,7 +72,7 @@ const sendLogin = async () => {
                 <p v-if="resText" :class="[
                     'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
                 ]">{{ resText
-                    }} </p>
+                }} </p>
 
             </form>
 

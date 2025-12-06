@@ -6,19 +6,41 @@ import Games from "./pages/Games.vue";
 import Home from "./pages/Home.vue";
 import GameHistory from "./pages/GameHistory.vue";
 import CurrentGame from "./pages/CurrentGame.vue";
+import { useUserStore } from "./stores/userStore";
 
 
 const routes = [
     { path: "/", component: Home },
-    { path: "/games", component: Games },
-    { path: "/history", component: GameHistory },
-    { path: "/game/createGame", component: CreateGame },
-    { path: "/game/createGame/currentGame", component: CurrentGame },
-    { path: "/login", component: Login },
-    { path: "/register", component: Register },
+    { path: "/games", component: Games, meta: { requiresAuth: true } },
+    { path: "/history", component: GameHistory, meta: { requiresAuth: true } },
+    { path: "/game/createGame", component: CreateGame, meta: { requiresAuth: true } },
+    { path: "/game/createGame/currentGame", component: CurrentGame, meta: { requiresAuth: true } },
+
+    { path: "/login", component: Login, meta: { guestOnly: true } },
+    { path: "/register", component: Register, meta: { guestOnly: true } },
 ]
 
 export const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore()
+    const isAuth = !!userStore.user
+
+    //Нужна авторизация, но пользователь НЕ вошёл
+    if (to.meta.requiresAuth && !isAuth) {
+        return next('/login');
+    }
+
+    //Страница только для гостей, а пользователь УЖЕ залогинен
+    if (to.meta.guestOnly && isAuth) {
+        return next('/');
+    }
+
+    next();
+
+
 })
