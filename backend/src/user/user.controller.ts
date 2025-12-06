@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from 'src/auth/auth.service';
