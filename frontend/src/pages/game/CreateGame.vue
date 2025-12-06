@@ -1,4 +1,28 @@
 <script setup lang="ts">
+import axios from 'axios';
+import { useUserStore } from '../../stores/userStore';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+
+
+const userStore = useUserStore()
+const route = useRouter()
+console.log(userStore.user?.id);
+
+const createGame = async () => {
+
+    try {
+        const res = await axios.post(`http://localhost:3000/tic-tac-toe/create/${userStore.user?.id}`)
+        route.push(`/game/createGame/RobotGame/${res.data?.id}`)
+        console.log(res.data);
+
+    } catch (e: any) {
+        throw new Error(e?.message)
+    }
+
+
+}
 
 </script>
 
@@ -13,13 +37,11 @@
                 <p class="text-gray-200 mb-8">Выбери с кем хочешь поиграть</p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <RouterLink to="/game/createGame/currentGame">
 
-                        <button
-                            class="flex-1 cursor-pointer px-6 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition font-semibold shadow-lg text-white">
-                            Играть с роботом
-                        </button>
-                    </RouterLink>
+                    <button @click="createGame"
+                        class="flex-1 cursor-pointer px-6 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition font-semibold shadow-lg text-white">
+                        Играть с роботом
+                    </button>
                     <RouterLink to="/game/createGame/currentGame">
                         <button
                             class="flex-1 px-6 py-3 cursor-pointer rounded-xl bg-transparent border border-indigo-400 hover:bg-indigo-500/30 active:scale-95 transition font-semibold text-white">
