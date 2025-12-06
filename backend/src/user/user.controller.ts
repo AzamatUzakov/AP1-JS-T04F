@@ -18,13 +18,16 @@ export class UserController {
         // Хешируем пароль
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Создаём пользователя через UserService
+        // Создаём пользователя
         const user = await this.userService.createUser(name, email, hashedPassword);
 
-        // Возвращаем пользователя без пароля
-        const { password: _, ...result } = user;
-        return result;
+        // Убираем пароль из ответа
+        const { password: _, ...userData } = user;
+
+        // Генерируем токен сразу после регистрации
+        return this.authService.login(userData);
     }
+
 
     @Post('login')
     async login(
