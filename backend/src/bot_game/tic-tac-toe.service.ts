@@ -51,7 +51,7 @@ export class TicTacToeService {
         });
     }
 
-    private checkWin(board: string[], symbol: string): boolean {
+    private checkWin(board: string[], symbol: string): boolean {//определение победителя
         const winPatterns = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], // строки
             [0, 3, 6], [1, 4, 7], [2, 5, 8], // колонки
@@ -60,7 +60,7 @@ export class TicTacToeService {
         return winPatterns.some(pattern => pattern.every(i => board[i] === symbol));
     }
 
-    private getRandomMove(board: string[]): number {
+    private getRandomMove(board: string[]): number {//Рандномный ход бота
         const emptyIndices = board.map((v, i) => v === '-' ? i : -1).filter(i => i !== -1);
         if (emptyIndices.length === 0) return -1;
         return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
