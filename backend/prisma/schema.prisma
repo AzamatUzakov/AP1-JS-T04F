@@ -34,16 +34,14 @@ model TicTacToeGame {
   player User @relation(fields: [playerId], references: [id])
 }
 
-
-
 model TicTacToeGameOnline {
   id        String   @id @default(nanoid())
   playerX   String
-  playerO   String?  // второй игрок подключится позже
+  playerO   String? // второй игрок подключится позже
   board     String   @default("[null,null,null,null,null,null,null,null,null]")
-  current   String   @default("X")
+  current   String?  @default("X")
   status    String   @default("waiting") // waiting / playing / finished
-  winner    String?  
+  winner    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
