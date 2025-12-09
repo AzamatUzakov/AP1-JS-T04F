@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { TicTacToeOnlineService } from "./tic-tac-toe-online.service";
 
 
@@ -24,4 +24,8 @@ export class TicTacToeOnlineController {
         return this.service.joinOnlineGame(gameId, playerId)
     }
 
+    @Get('allGames')
+    async getAll() {
+        return this.service.getAllGames()
+    }
 }
