@@ -11,7 +11,6 @@ const route = useRouter()
 console.log(userStore.user?.id);
 
 const createGame = async () => {
-
     try {
         const res = await axios.post(`http://localhost:3000/tic-tac-toe/create/${userStore.user?.id}`)
         route.push(`/game/createGame/RobotGame/${res.data?.id}`)
@@ -21,8 +20,20 @@ const createGame = async () => {
         throw new Error(e?.message)
     }
 
-
 }
+const createMultiplayerGame = async () => {
+    if (!userStore.user?.id) {
+        console.error("Нет userId. Не могу создать игру")
+        return
+    }
+    try {
+        const res = await axios.post("http://localhost:3000/tictoctoe-online/create", { playerId: userStore.user.id })
+        route.push(`/game/createGame/CurrentGame/${res.data?.id}`)
+    } catch (e: any) {
+        console.error(e)
+    }
+}
+
 
 </script>
 
@@ -42,13 +53,11 @@ const createGame = async () => {
                         class="flex-1 cursor-pointer px-6 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition font-semibold shadow-lg text-white">
                         Играть с роботом
                     </button>
-                    <RouterLink to="/game/createGame/currentGame">
-                        <button
-                            class="flex-1 px-6 py-3 cursor-pointer rounded-xl bg-transparent border border-indigo-400 hover:bg-indigo-500/30 active:scale-95 transition font-semibold text-white">
+                    <button @click="createMultiplayerGame"
+                        class="flex-1 px-6 py-3 cursor-pointer rounded-xl bg-transparent border border-indigo-400 hover:bg-indigo-500/30 active:scale-95 transition font-semibold text-white">
 
-                            Играть с игроком
-                        </button>
-                    </RouterLink>
+                        Играть с игроком
+                    </button>
                 </div>
 
                 <p class="mt-6 text-sm text-gray-300">Не важно, кого выберешь — веселье гарантировано!</p>

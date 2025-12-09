@@ -5,9 +5,7 @@ import { RouterLink, useRoute } from "vue-router";
 import { router } from "../../routers";
 import axios from "axios";
 
-type Line = [number, number, number];
 type Player = 'X' | 'O' | null;
-type Squares = Player[];
 
 let route = useRoute()
 let gameId = route.params.id
@@ -32,7 +30,7 @@ const parseBoard = (boardStr: string) => {
 const makeMove = async (x: number, y: number) => {
     if (!gameId || !board.value?.[x] || board.value[x][y] !== null || status.value !== 'playing') return;
 
-    const index = x * 3 + y;
+    const index = x * 3 + y;//опредеяем index
 
 
     try {
@@ -45,7 +43,6 @@ const makeMove = async (x: number, y: number) => {
     }
 };
 
-const player = ref<Player>("X")
 
 
 
@@ -60,7 +57,7 @@ const player = ref<Player>("X")
 
         <h3 class="text-2xl mb-6 font-semibold flex items-center gap-3" v-if="status === 'playing'">Ход игрока <span
                 class=" text-blue-500 text-4xl">{{
-                    player }}</span></h3>
+                    status }}</span></h3>
 
         <div class="flex flex-col gap-4 items-center mb-6 bg-black/50 p-6 rounded-xl shadow-2xl">
             <div v-for="(row, x) in board" :key="x" class="flex gap-4">

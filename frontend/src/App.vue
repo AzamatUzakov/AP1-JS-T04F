@@ -2,9 +2,6 @@
 import { RouterView } from 'vue-router';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
-import { useUserStore } from './stores/userStore';
-const userStore = useUserStore()
-userStore.loadFromStorage()
 
 </script>
 
