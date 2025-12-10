@@ -4,8 +4,6 @@ import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { useUserStore } from '../../stores/userStore';
 
-
-
 const form = ref({
     name: "",
     email: "",
@@ -17,30 +15,46 @@ const isEror = ref<boolean>(false)
 const route = useRouter()
 const userStore = useUserStore()
 
-const sendRegister = async () => {
-    try {
-        const res = await axios.post("http://localhost:3000/users/register", form.value)
-        const userData = res.data.user || res.data   // если бэкенд возвращает token + user
-        const token = res.data.token || null
-        console.log(res.data);
+const nameRegex = /^[A-Za-zА-Яа-яЁё\s]{2,30}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]{6,30}$/;
 
-        if (token) userStore.setUser(userData, token)
-        resText.value = "Вы успешно зарегистрировались"
-        isEror.value = false
-        route.push("/")
+const sendRegister = async () => {
+    if (!nameRegex.test(form.value.name)) {
+        resText.value = "Имя должно быть от 2 до 30 букв";
+        isEror.value = true;
+        return;
+    }
+    if (!emailRegex.test(form.value.email)) {
+        resText.value = "Введите корректный email";
+        isEror.value = true;
+        return;
+    }
+    if (!passwordRegex.test(form.value.password)) {
+        resText.value = "Пароль должен содержать минимум 6 символов, одну заглавную букву, одну строчную и цифру";
+        isEror.value = true;
+        return;
+    }
+
+    try {
+        const res = await axios.post("http://localhost:3000/users/register", form.value);
+        const userData = res.data.user || res.data;
+        const token = res.data.token || null;
+
+        if (token) userStore.setUser(userData, token);
+        resText.value = "Вы успешно зарегистрировались";
+        isEror.value = false;
+        route.push("/");
     } catch (err: any) {
-        resText.value = `Ошибка: ${err.response?.data?.message || err.message}`
-        isEror.value = true
+        resText.value = `Ошибка: ${err.response?.data?.message || err.message}`;
+        isEror.value = true;
     }
 }
-
-
 </script>
 
 <template>
     <div
         class="bg-gradient-to-r z-99 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 from-purple-100 to-blue-100 flex items-center justify-center w-full h-full font-sans">
-
         <div class="bg-white shadow-lg rounded-2xl p-10 max-w-md w-full">
             <h2 class="text-3xl font-bold text-gray-800 text-center mb-4">Создайте аккаунт</h2>
             <p class="text-center text-gray-500 mb-4">Заполните форму ниже, чтобы начать ваше путешествие с нами.</p>
@@ -67,26 +81,19 @@ const sendRegister = async () => {
                         type="password" id="password" placeholder="Придумайте пароль">
                 </div>
 
-
                 <button type="submit"
                     class="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition-colors cursor-pointer">Зарегистрироваться</button>
-                <p v-if="resText" :class="[
-                    'w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? ' bg-red-500 ' : ' bg-green-500 '
-                ]">{{ resText
-                }} </p>
-
+                <p v-if="resText"
+                    :class="['w-full p-4 text-white text-[18px] font-semibold text-center border-0', isEror ? 'bg-red-500' : 'bg-green-500']">
+                    {{ resText }}</p>
             </form>
 
             <p class="text-center text-gray-500 mt-6 cursor-pointer">
                 Уже есть аккаунт?
                 <RouterLink to="/login">
-
-                    <p href="#" class="text-purple-500 hover:underline cursor-pointer">Войти</p>
+                    <p class="text-purple-500 hover:underline cursor-pointer">Войти</p>
                 </RouterLink>
             </p>
         </div>
-
     </div>
 </template>
-
-<style></style>
