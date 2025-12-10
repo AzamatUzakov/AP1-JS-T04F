@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TicTacToeModule } from './bot_game/tic-tac-toe.controller.module';
 import { TicTacToeOnlineModule } from './multiplayer_game/tic-tac-toe-online.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { ComplitedGamesModule } from './complitedGames/complited-game.module';
 
 @Module({
   controllers: [AppController],
@@ -15,7 +16,8 @@ import { LeaderboardModule } from './leaderboard/leaderboard.module';
     UserModule,
     TicTacToeModule,
     TicTacToeOnlineModule,
-    LeaderboardModule
+    LeaderboardModule,
+    ComplitedGamesModule
   ],
 })
 export class AppModule { }

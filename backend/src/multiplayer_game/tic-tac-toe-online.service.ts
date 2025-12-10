@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TicTacToeGameOnline } from '@prisma/client'; @Injectable()
+import { TicTacToeGameOnline } from '@prisma/client';
+@Injectable()
 export class TicTacToeOnlineService {
     constructor(private prisma: PrismaService) { }
 
