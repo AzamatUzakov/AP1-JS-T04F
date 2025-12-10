@@ -38,11 +38,10 @@ if (!userStore.user) {
                     </p>
                 </RouterLink>
 
-                <RouterLink to="/history">
+                <RouterLink to="/leaderborad">
 
                     <p class="relative group px-2 py-1 rounded-md hover:bg-white/10 transition">
-                        История игр
-                        <span
+                        Топ игроки <span
                             class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
                     </p>
                 </RouterLink>
