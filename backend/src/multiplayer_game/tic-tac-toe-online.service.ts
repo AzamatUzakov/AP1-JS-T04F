@@ -87,7 +87,7 @@ export class TicTacToeOnlineService {
 
     async getAllGames() {//Возврощает все игры 
         return this.prisma.ticTacToeGameOnline.findMany({
-            where: { status: { in: ["waiting", "playing"] } }
+            where: { status: { in: ["waiting"] } }
         });
     }
 }

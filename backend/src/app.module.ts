@@ -5,6 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { TicTacToeModule } from './bot_game/tic-tac-toe.controller.module';
 import { TicTacToeOnlineModule } from './multiplayer_game/tic-tac-toe-online.module';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
 @Module({
   controllers: [AppController],
@@ -13,7 +14,8 @@ import { TicTacToeOnlineModule } from './multiplayer_game/tic-tac-toe-online.mod
     PrismaModule,
     UserModule,
     TicTacToeModule,
-    TicTacToeOnlineModule
+    TicTacToeOnlineModule,
+    LeaderboardModule
   ],
 })
 export class AppModule { }
