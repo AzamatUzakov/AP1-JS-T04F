@@ -8,12 +8,15 @@ import GameHistory from "./pages/Leaderboard.vue";
 import CurrentGame from "./pages/game/CurrentGame.vue";
 import RobotGame from "./pages/game/RobotGame.vue";
 import { useUserStore } from "./stores/userStore";
+import CompletedGgames from "./pages/CompletedGames.vue";
+import CompletedGames from "./pages/CompletedGames.vue";
 
 
 const routes = [
     { path: "/", component: Home },
     { path: "/games", component: Games, meta: { requiresAuth: true } },
     { path: "/leaderborad", component: GameHistory, meta: { requiresAuth: true } },
+    { path: "/completedGames", component: CompletedGames, meta: { requiresAuth: true } },
     { path: "/game/createGame", component: CreateGame, meta: { requiresAuth: true } },
     { path: "/game/createGame/currentGame/:id", component: CurrentGame, meta: { requiresAuth: true } },
     { path: "/game/createGame/RobotGame/:id", component: RobotGame, meta: { requiresAuth: true } },

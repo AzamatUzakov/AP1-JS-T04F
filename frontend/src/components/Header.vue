@@ -54,6 +54,15 @@ if (!userStore.user) {
                             class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
                     </p>
                 </RouterLink>
+
+                <RouterLink to="completedGames">
+
+                    <p class="relative group px-2 py-1 rounded-md hover:bg-white/10 transition">
+                        Завершенные игры <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                </RouterLink>
+
             </nav>
 
             <div>
